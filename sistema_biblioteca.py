@@ -1,3 +1,5 @@
+# sistema_biblioteca.py
+
 import datetime
 
 ARQUIVO_LIVROS = "livros.txt"
@@ -23,7 +25,8 @@ def salvar_linha(arquivo_nome, linha):
     with open(arquivo_nome, "a", encoding="utf-8") as f:
         f.write(linha + "\n")
 
-       def cadastrar_usuario():
+
+def cadastrar_usuario():
     print("\n--- Cadastro de Usuário ---")
     nome = obter_input_nao_vazio("Nome: ")
     cpf = obter_input_nao_vazio("CPF: ")
@@ -33,26 +36,7 @@ def salvar_linha(arquivo_nome, linha):
             print("Usuário já cadastrado.")
             return
     salvar_linha(ARQUIVO_USUARIOS, f"{nome}|{cpf}")
-    print(" Usuário cadastrado com sucesso!")
-
-def obter_usuario_por_cpf(cpf):
-    usuarios = carregar_arquivo(ARQUIVO_USUARIOS)
-    for usuario in usuarios:
-        nome_u, cpf_u = usuario.strip().split("|")
-        if cpf_u == cpf:
-            return nome_u
-    return None
- def cadastrar_usuario():
-    print("\n--- Cadastro de Usuário ---")
-    nome = obter_input_nao_vazio("Nome: ")
-    cpf = obter_input_nao_vazio("CPF: ")
-    usuarios = carregar_arquivo(ARQUIVO_USUARIOS)
-    for usuario in usuarios:
-        if cpf in usuario:
-            print("Usuário já cadastrado.")
-            return
-    salvar_linha(ARQUIVO_USUARIOS, f"{nome}|{cpf}")
-    print(" Usuário cadastrado com sucesso!")
+    print("✅ Usuário cadastrado com sucesso!")
 
 def obter_usuario_por_cpf(cpf):
     usuarios = carregar_arquivo(ARQUIVO_USUARIOS)
@@ -62,7 +46,6 @@ def obter_usuario_por_cpf(cpf):
             return nome_u
     return None
 
-# ================= LIVROS =================
 
 def carregar_livros():
     livros = []
@@ -86,7 +69,7 @@ def encontrar_livro_por_titulo(livros, titulo_busca):
             return livro
     return None
 
-# ================= OPERAÇÕES =================
+
 
 def cadastrar_livro(livros):
     titulo = obter_input_nao_vazio("Título do livro: ")
@@ -96,7 +79,7 @@ def cadastrar_livro(livros):
             print("Livro já cadastrado.")
             return
     livros.append({"titulo": titulo, "autor": autor, "status": "disponível", "data_devolucao": "-"})
-    print("✅ Livro cadastrado com sucesso!")
+    print("Livro cadastrado com sucesso!")
 
 def listar_livros(livros):
     if not livros:
@@ -144,7 +127,7 @@ def emprestar_livro(livros):
         livro['status'] = "emprestado"
         livro['data_devolucao'] = data_devolucao.strftime("%Y-%m-%d")
         registrar_historico("EMPRESTADO", livro['titulo'], usuario)
-        print(f" Livro emprestado. Devolução até {livro['data_devolucao']}.")
+        print(f"Livro emprestado. Devolução até {livro['data_devolucao']}.")
 
 def devolver_livro(livros):
     cpf = obter_input_nao_vazio("CPF do usuário: ")
@@ -179,13 +162,12 @@ def verificar_atrasos(livros):
     hoje = datetime.date.today()
     atrasados = [l for l in livros if l['status'] == "emprestado" and l['data_devolucao'] != "-" and datetime.date.fromisoformat(l['data_devolucao']) < hoje]
     if atrasados:
-        print("\n📌 Livros em atraso:")
+        print("\n Livros em atraso:")
         for l in atrasados:
             print(f"- {l['titulo']} - Devolução era até {l['data_devolucao']}")
     else:
-        print("\n✅ Nenhum livro atrasado no momento.")
+        print("\n Nenhum livro atrasado no momento.")
 
-# ================= MENU =================
 
 def exibir_menu():
     print("\n--- Sistema de Biblioteca ---")
